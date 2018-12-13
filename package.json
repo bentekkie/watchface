@@ -1,0 +1,47 @@
+{
+  "name": "watchface",
+  "author": "MakeAwesomeHappen",
+  "version": "1.0.0",
+  "keywords": ["pebble-app"],
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "watchface",
+    "uuid": "ab608e36-49f8-475b-b55f-42df12b46242",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "basalt"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": {
+      "PHONE_BATTERY_PERCENTAGE":0,
+      "TEMPERATURE":1,
+      "WEATHER_ICON_KEY":2,
+      "PHONE_CHARGING_STATUS":3
+    },
+    "resources": {
+      "media": [ {"file": "icons/01d.png", "name": "WEATHER_01D_ICON", "type": "png"},
+        {"file": "icons/01n.png", "name": "WEATHER_01N_ICON", "type": "png"},
+        {"file": "icons/02d.png", "name": "WEATHER_02D_ICON", "type": "png"},
+        {"file": "icons/02n.png", "name": "WEATHER_02N_ICON", "type": "png"},
+        {"file": "icons/03d.png", "name": "WEATHER_03D_ICON", "type": "png"},
+        {"file": "icons/03n.png", "name": "WEATHER_03N_ICON", "type": "png"},
+        {"file": "icons/04d.png", "name": "WEATHER_04D_ICON", "type": "png"},
+        {"file": "icons/04n.png", "name": "WEATHER_04N_ICON", "type": "png"},
+        {"file": "icons/09d.png", "name": "WEATHER_09D_ICON", "type": "png"},
+        {"file": "icons/09n.png", "name": "WEATHER_09N_ICON", "type": "png"},
+        {"file": "icons/10d.png", "name": "WEATHER_10D_ICON", "type": "png"},
+        {"file": "icons/10n.png", "name": "WEATHER_10N_ICON", "type": "png"},
+        {"file": "icons/11d.png", "name": "WEATHER_11D_ICON", "type": "png"},
+        {"file": "icons/11n.png", "name": "WEATHER_11N_ICON", "type": "png"},
+        {"file": "icons/13d.png", "name": "WEATHER_13D_ICON", "type": "png"},
+        {"file": "icons/13n.png", "name": "WEATHER_13N_ICON", "type": "png"},
+        {"file": "icons/50d.png", "name": "WEATHER_50D_ICON", "type": "png"},
+        {"file": "icons/50n.png", "name": "WEATHER_50N_ICON", "type": "png"},
+        {"file": "fonts/icons.ttf", "name": "ICON_FONT_10", "type": "font"}]
+    }
+  }
+}
