@@ -78,10 +78,7 @@ static void battery_callback(BatteryChargeState state) {
 	layer_mark_dirty(s_watch_battery_layer);
 }
 
-static void update_time() {
-	// Get a tm structure
-	time_t temp = time(NULL);
-	struct tm *tick_time = localtime(&temp);
+static void update_time(struct tm *tick_time) {
 
 	// Write the current hours and minutes into a buffer
 	static char s_buffer[8];
@@ -92,12 +89,9 @@ static void update_time() {
 	text_layer_set_text(s_time_layer, s_buffer);
 }
 
-static void update_day() {
-	time_t temp = time(NULL);
-	struct tm *tick_time = localtime(&temp);
+static void update_day(struct tm *tick_time) {
 	static char s_buffer[20];
 	strftime(s_buffer, sizeof(s_buffer), "%a %b %e, %Y", tick_time);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Date %s", s_buffer);
 	text_layer_set_text(s_date_layer, s_buffer);
 }
 
@@ -111,18 +105,20 @@ static void get_weather() {
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-	update_time();
+	if( (units_changed & MINUTE_UNIT) != 0 ) {
+		update_time(tick_time);
+	}
+
+	if( (units_changed & DAY_UNIT) != 0 ) {
+		update_day(tick_time);
+	}
+
 	if (tick_time->tm_min % 10 == 0) {
 		get_weather();
 	}
 }
 
-static void day_tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-	update_day();
-}
-
-static void draw_bar(GContext *ctx, GRect bar_bounds, GColor8 color,
-		int percentage) {
+static void draw_bar(GContext *ctx, GRect bar_bounds, GColor8 color, int percentage) {
 	int sectWidth = (bar_bounds.size.w - 9) / 10;
 	bar_bounds.size.w = sectWidth * 10 + 9;
 	graphics_context_set_fill_color(ctx, GColorLightGray);
@@ -286,11 +282,12 @@ static void prv_init(void) {
 	window_set_window_handlers(s_window, (WindowHandlers ) { .load =
 					prv_window_load, .unload = prv_window_unload, });
 	const bool animated = true;
-	tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
-	tick_timer_service_subscribe(DAY_UNIT, day_tick_handler);
+	tick_timer_service_subscribe(MINUTE_UNIT | DAY_UNIT, tick_handler);
 	window_stack_push(s_window, animated);
-	update_time();
-	update_day();
+	time_t temp = time(NULL);
+	struct tm *tick_time = localtime(&temp);
+	update_time(tick_time);
+	update_day(tick_time);
 	battery_callback(battery_state_service_peek());
 	app_message_open(64, 64);
 	get_weather();
